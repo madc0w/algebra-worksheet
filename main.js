@@ -1,28 +1,55 @@
-const numProblems = 18;
-const configs = {
-    1: {
+const numProblems = 16;
+const configs = [
+    {
+        separator: 'Linear things',
+    },
+    {
         title: 'Simple linear equations',
         problemGenerator: simpleLinear,
         instructions: `Solve for ${varialbe()}.`,
     },
-    2: {
+    {
         title: 'Intermediate linear equations',
         problemGenerator: intermediateLinear,
         instructions: `Solve for ${varialbe()}.`,
     },
-    3: {
+    {
+        separator: 'Quadratic things',
+    },
+    {
         title: 'Quadratic factoring 1',
         problemGenerator: quadraticFactoring1,
         instructions: `Factor these expressions`,
     },
-};
+    {
+        title: 'Quadratic factoring 2',
+        problemGenerator: quadraticFactoring2,
+        instructions: `Factor these expressions`,
+    },
+    {
+        title: 'Quadratic equations',
+        problemGenerator: quadraticEquations,
+        instructions: `Solve these expressions for ${varialbe()}. If no solution exists, write "no solution".`,
+    },
+];
 
 function load() {
-    const type = new URL(location.href).searchParams.get('type') || 1;
+    const type = new URL(location.href).searchParams.get('type') || 0;
     const typeSelector = document.getElementById('type-selector');
     let typeSelectorHtml = '';
-    for (const key in configs) {
-        typeSelectorHtml += `<option value="${key}">${configs[key].title}</option>`;
+    let config;
+    {
+        let i = 0;
+        for (const _config of configs) {
+            if (i == type) {
+                config = _config;
+            }
+            if (_config.separator) {
+                typeSelectorHtml += `<option disabled>${_config.separator}</option>`;
+            } else {
+                typeSelectorHtml += `<option value="${i++}">&nbsp;&nbsp;${_config.title}</option>`;
+            }
+        }
     }
     typeSelector.innerHTML = typeSelectorHtml;
     for (let i = 0; i < typeSelector.options.length; i++) {
@@ -31,16 +58,17 @@ function load() {
             break;
         }
     }
+
     const contentDiv = document.getElementById('content');
     let html = '<div id="instructions">';
-    html += configs[type].instructions;
+    html += config.instructions;
     html += '</div>';
 
     html += '<ol>';
     for (let i = 0; i < numProblems; i++) {
         html += '<li>';
         html += '<div class="problem">';
-        html += configs[type].problemGenerator();
+        html += config.problemGenerator();
         html += '</div>';
         html += '</li>';
     }
@@ -124,4 +152,57 @@ function quadraticFactoring1() {
     const c1 = Math.abs(a + b);
     const c2 = Math.abs(a * b);
     return varialbe() + exponent(2) + sign(a + b) + (c1 == 1 ? '' : c1) + varialbe() + sign(a * b) + c2;
+}
+
+function quadraticFactoring2() {
+    const a1 = coefficient(true, 6);
+    const b1 = coefficient(true, 6);
+    const a2 = coefficient(true, 6);
+    const b2 = coefficient(true, 6);
+    const c1 = a1 * a2;
+    const c2 = a1 * b2 + a2 * b1;
+    const c3 = b1 * b2;
+    let result = '';
+    if (Math.abs(c1) == 1) {
+        if (c1 < 0) {
+            result += '-';
+        }
+    } else {
+        result += c1;
+    }
+    result += varialbe() + exponent(2);
+    result += sign(c2);
+    if (Math.abs(c2) == 1) {
+        if (c2 < 0) {
+            result += '-';
+        }
+    } else {
+        result += Math.abs(c2);
+    }
+    result += varialbe();
+    result += sign(c3) + Math.abs(c3);
+    return result;
+}
+
+function quadraticEquations() {
+    const a = coefficient(true, 6);
+    const b = coefficient(true, 6);
+    const c = coefficient(true, 6);
+    let result = '';
+    if (Math.abs(a) == 1) {
+        if (a < 0) {
+            result += '-';
+        }
+    } else {
+        result += a;
+    }
+    result += varialbe() + exponent(2);
+    result += sign(b);
+    if (Math.abs(b) != 1) {
+        result += Math.abs(b);
+    }
+    result += varialbe();
+    result += sign(c) + Math.abs(c);
+    result += ' = 0';
+    return result;
 }

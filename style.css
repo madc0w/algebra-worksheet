@@ -36,7 +36,10 @@ li {
 
 #settings {
     float: right;
-    /* width: 200px; */
+}
+
+#type-selector {
+    font-size: 22px;
 }
 
 #instructions {
