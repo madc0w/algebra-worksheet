@@ -66,14 +66,26 @@ function load() {
 
     html += '<ol>';
     for (let i = 0; i < numProblems; i++) {
+        const question = config.problemGenerator();
         html += '<li>';
         html += '<div class="problem">';
-        html += config.problemGenerator();
+        html += question.problem;
+        html += '</div>';
+        html += '<div class="answer">';
+        html += question.answer;
         html += '</div>';
         html += '</li>';
     }
     html += '</ol>';
     contentDiv.innerHTML = html;
+}
+
+function toggleShowAnswers() {
+    const isShowAnswers = document.getElementById('show-answers').checked;
+    const answers = document.getElementsByClassName('answer');
+    for (let i = 0; i < answers.length; i++) {
+        answers.item(i).style = `display: ${isShowAnswers ? 'block' : 'none'};`;
+    }
 }
 
 function coefficient(isOneAllowed, range) {
@@ -109,24 +121,65 @@ function exponent(n) {
 }
 
 function sign(n) {
-    return `<span class="sign">${n < 0 ? '-' : '+'}</span>`;
+    return `<div class="sign">${n < 0 ? '-' : '+'}</div>`;
+}
+
+function simplifyFraction(num, denom) {
+    if (denom == 0) {
+        return '&infin;';
+    }
+    const _sign = num / denom < 0 ? sign(num / denom) : '';
+    num = Math.abs(num);
+    denom = Math.abs(denom);
+    let gcf;
+    for (let i = 2; i <= Math.max(num, denom); i++) {
+        if (num % i == 0 && denom % i == 0) {
+            gcf = i;
+        }
+    }
+    if (gcf) {
+        num /= gcf;
+        denom /= gcf;
+    }
+    if (num == 0) {
+        return 0;
+    } else if (denom == 1) {
+        return (_sign ? '-' : '') + num;
+    } else {
+        return `<div class="fraction-container">${_sign}<div class="fraction"><div class="numerator">${num}</div><div class="denominator">${denom}</div></div></div>`;
+    }
 }
 
 
 // generators:
 
 function simpleLinear() {
-    let html = '';
-    html += coefficient() + varialbe();
-    html += Math.random() < 0.5 ? ' + ' : ' - ';
+    let problem = '';
+    const a = coefficient();
+    const b = coefficient(true);
+    problem += a + varialbe();
 
-    let c2 = coefficient(true);
-    c2 *= Math.sign(c2);
-    html += c2 + ' = ';
+    if (b != 0) {
+        problem += b < 0 ? ' - ' : ' + ';
+        problem += Math.abs(b);
+    }
+    problem += ' = ';
 
-    let c3 = coefficient(true);
-    html += c3;
-    return html;
+    let c = coefficient(true);
+    problem += c;
+
+    let denom = a;
+    if (denom == '-') {
+        denom = -1;
+    } else if (!denom) {
+        denom = 1;
+    }
+    const answer = varialbe() + ' = ' + simplifyFraction(c - b, denom);
+
+    return {
+        problem,
+        answer
+    };
 }
 
 
@@ -143,7 +196,10 @@ function intermediateLinear() {
     let c3 = coefficient(true, 8);
     c3 *= Math.sign(c3);
     html += c3;
-    return html;
+    return {
+        problem: html,
+        answer: 'TODO'
+    };
 }
 
 function quadraticFactoring1() {
@@ -151,7 +207,10 @@ function quadraticFactoring1() {
     const b = coefficient(true, 6);
     const c1 = Math.abs(a + b);
     const c2 = Math.abs(a * b);
-    return varialbe() + exponent(2) + sign(a + b) + (c1 == 1 ? '' : c1) + varialbe() + sign(a * b) + c2;
+    return {
+        problem: varialbe() + exponent(2) + sign(a + b) + (c1 == 1 ? '' : c1) + varialbe() + sign(a * b) + c2,
+        answer: 'TODO'
+    };
 }
 
 function quadraticFactoring2() {
@@ -181,7 +240,10 @@ function quadraticFactoring2() {
     }
     result += varialbe();
     result += sign(c3) + Math.abs(c3);
-    return result;
+    return {
+        problem: result,
+        answer: 'TODO'
+    };
 }
 
 function quadraticEquations() {
@@ -204,5 +266,8 @@ function quadraticEquations() {
     result += varialbe();
     result += sign(c) + Math.abs(c);
     result += ' = 0';
-    return result;
+    return {
+        problem: result,
+        answer: 'TODO'
+    };
 }

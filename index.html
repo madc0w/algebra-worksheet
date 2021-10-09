@@ -34,11 +34,23 @@
             Select worksheet:
         </div>
         <select onChange="setType()" id="type-selector"></select>
+        <div id="show-answers-container">
+            <input type="checkbox" id="show-answers" onChange="toggleShowAnswers()" />
+            <label for="show-answers">Show solutions</label>
+        </div>
         <div>
             <button id="print-button" onClick="print()">Print</button>
         </div>
+        <div id="byline">
+            <a href="mailto:fofofeedback@runbox.com?subject=Math for nerds feedback">
+                Talk to me
+            </a>
+        </div>
     </div>
+
     <div id="content"></div>
+
+
 </body>
 
 </html>
