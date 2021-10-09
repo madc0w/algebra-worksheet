@@ -1,0 +1,24 @@
+body {
+    font-family: Lato;
+}
+
+li {
+    line-height: 42px;
+}
+
+.problem {
+    font-size: 24px;
+    padding-left: 22px;
+}
+
+.variable {
+    font-weight: bold;
+    font-size: 18px;
+    font-family: 'Petit Formal Script', cursive;
+    margin-left: 4px;
+}
+
+#settings {
+    float: right;
+    /* width: 200px; */
+}
