@@ -1,3 +1,9 @@
+@media print {
+    #settings {
+        display: none;
+    }
+}
+
 body {
     font-family: Lato;
 }
@@ -21,4 +27,8 @@ li {
 #settings {
     float: right;
     /* width: 200px; */
+}
+
+#instructions {
+    font-size: 20px;
 }

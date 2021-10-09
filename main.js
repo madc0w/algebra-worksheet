@@ -1,6 +1,13 @@
-const generators = {
-    1: simpleLinear,
-    2: intermediateLinear,
+const numProblems = 18;
+const configs = {
+    1: {
+        problemGenerator: simpleLinear,
+        instructions: `Solve for ${varialbe()}.`,
+    },
+    2: {
+        problemGenerator: intermediateLinear,
+        instructions: `Solve for ${varialbe()}.`,
+    },
 };
 
 function load() {
@@ -13,11 +20,15 @@ function load() {
         }
     }
     const contentDiv = document.getElementById('content');
-    let html = '<ol>';
-    for (let i = 0; i < 20; i++) {
+    let html = '<div id="instructions">';
+    html += configs[type].instructions;
+    html += '</div>';
+
+    html += '<ol>';
+    for (let i = 0; i < numProblems; i++) {
         html += '<li>';
         html += '<div class="problem">';
-        html += generators[type]();
+        html += configs[type].problemGenerator();
         html += '</div>';
         html += '</li>';
     }
@@ -25,11 +36,19 @@ function load() {
     contentDiv.innerHTML = html;
 }
 
-function coefficient() {
+function coefficient(isOneAllowed, range) {
+    range = range || 16;
     let c;
     do {
-        c = Math.ceil(Math.random() * 32) - 16;
+        c = Math.ceil(Math.random() * 2 * range) - range;
     } while (c == 0);
+    if (!isOneAllowed) {
+        if (c == 1) {
+            c = '';
+        } else if (c == -1) {
+            c = '-';
+        }
+    }
     return c;
 }
 
@@ -50,26 +69,32 @@ function varialbe(name) {
 
 function simpleLinear() {
     let html = '';
-    let c1 = coefficient();
-    if (c1 == 1) {
-        c1 = '';
-    } else if (c1 == -1) {
-        c1 = '-';
-    }
-    html += c1 + varialbe();
+    html += coefficient() + varialbe();
     html += Math.random() < 0.5 ? ' + ' : ' - ';
 
-    let c2 = coefficient();
+    let c2 = coefficient(true);
     c2 *= Math.sign(c2);
     html += c2 + ' = ';
 
-    let c3 = coefficient();
+    let c3 = coefficient(true);
     html += c3;
     return html;
 }
 
 
 function intermediateLinear() {
-    return 'todo';
+    let html = '';
+    html += coefficient() + ' (';
+    html += coefficient() + varialbe();
+    html += Math.random() < 0.5 ? ' + ' : ' - ';
+    let c2 = coefficient(true);
+    c2 *= Math.sign(c2);
+    html += c2 + ') = ';
+    html += coefficient(false, 8) + varialbe();
+    html += Math.random() < 0.5 ? ' + ' : ' - ';
+    let c3 = coefficient(true, 8);
+    c3 *= Math.sign(c3);
+    html += c3;
+    return html;
 }
 
