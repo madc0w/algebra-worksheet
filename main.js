@@ -184,20 +184,20 @@ function simpleLinear() {
 
 
 function intermediateLinear() {
-    let html = '';
-    html += coefficient() + ' (';
-    html += coefficient() + varialbe();
-    html += Math.random() < 0.5 ? ' + ' : ' - ';
+    let problem = '';
+    problem += coefficient() + ' (';
+    problem += coefficient() + varialbe();
+    problem += Math.random() < 0.5 ? ' + ' : ' - ';
     let c2 = coefficient(true);
     c2 *= Math.sign(c2);
-    html += c2 + ') = ';
-    html += coefficient(false, 8) + varialbe();
-    html += Math.random() < 0.5 ? ' + ' : ' - ';
+    problem += c2 + ') = ';
+    problem += coefficient(false, 8) + varialbe();
+    problem += Math.random() < 0.5 ? ' + ' : ' - ';
     let c3 = coefficient(true, 8);
     c3 *= Math.sign(c3);
-    html += c3;
+    problem += c3;
     return {
-        problem: html,
+        problem,
         answer: 'TODO'
     };
 }
@@ -208,8 +208,8 @@ function quadraticFactoring1() {
     const c1 = Math.abs(a + b);
     const c2 = Math.abs(a * b);
     return {
-        problem: varialbe() + exponent(2) + sign(a + b) + (c1 == 1 ? '' : c1) + varialbe() + sign(a * b) + c2,
-        answer: 'TODO'
+        problem: varialbe() + exponent(2) + (c1 == 0 ? '' : (sign(a + b) + (c1 == 1 ? '' : c1) + varialbe())) + sign(a * b) + c2,
+        answer: `(${varialbe()} ${sign(a)} ${Math.abs(a)})(${varialbe()} ${sign(b)} ${Math.abs(b)})`
     };
 }
 
@@ -230,13 +230,15 @@ function quadraticFactoring2() {
         result += c1;
     }
     result += varialbe() + exponent(2);
-    result += sign(c2);
-    if (Math.abs(c2) == 1) {
-        if (c2 < 0) {
-            result += '-';
+    if (c2 != 0) {
+        result += sign(c2);
+        if (Math.abs(c2) == 1) {
+            if (c2 < 0) {
+                result += '-';
+            }
+        } else {
+            result += Math.abs(c2);
         }
-    } else {
-        result += Math.abs(c2);
     }
     result += varialbe();
     result += sign(c3) + Math.abs(c3);
@@ -250,24 +252,24 @@ function quadraticEquations() {
     const a = coefficient(true, 6);
     const b = coefficient(true, 6);
     const c = coefficient(true, 6);
-    let result = '';
+    let problem = '';
     if (Math.abs(a) == 1) {
         if (a < 0) {
-            result += '-';
+            problem += '-';
         }
     } else {
-        result += a;
+        problem += a;
     }
-    result += varialbe() + exponent(2);
-    result += sign(b);
+    problem += varialbe() + exponent(2);
+    problem += sign(b);
     if (Math.abs(b) != 1) {
-        result += Math.abs(b);
+        problem += Math.abs(b);
     }
-    result += varialbe();
-    result += sign(c) + Math.abs(c);
-    result += ' = 0';
+    problem += varialbe();
+    problem += sign(c) + Math.abs(c);
+    problem += ' = 0';
     return {
-        problem: result,
+        problem,
         answer: 'TODO'
     };
 }
