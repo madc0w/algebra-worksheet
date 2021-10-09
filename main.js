@@ -1,18 +1,30 @@
 const numProblems = 18;
 const configs = {
     1: {
+        title: 'Simple linear equations',
         problemGenerator: simpleLinear,
         instructions: `Solve for ${varialbe()}.`,
     },
     2: {
+        title: 'Intermediate linear equations',
         problemGenerator: intermediateLinear,
         instructions: `Solve for ${varialbe()}.`,
+    },
+    3: {
+        title: 'Quadratic factoring 1',
+        problemGenerator: quadraticFactoring1,
+        instructions: `Factor these expressions`,
     },
 };
 
 function load() {
     const type = new URL(location.href).searchParams.get('type') || 1;
     const typeSelector = document.getElementById('type-selector');
+    let typeSelectorHtml = '';
+    for (const key in configs) {
+        typeSelectorHtml += `<option value="${key}">${configs[key].title}</option>`;
+    }
+    typeSelector.innerHTML = typeSelectorHtml;
     for (let i = 0; i < typeSelector.options.length; i++) {
         if (typeSelector.options.item(i).value == type) {
             typeSelector.selectedIndex = i;
@@ -64,6 +76,14 @@ function varialbe(name) {
     return `<span class="variable">${name}</span>`;
 }
 
+function exponent(n) {
+    return `<span class="exponent">${n}</span>`;
+}
+
+function sign(n) {
+    return `<span class="sign">${n < 0 ? '-' : '+'}</span>`;
+}
+
 
 // generators:
 
@@ -98,3 +118,10 @@ function intermediateLinear() {
     return html;
 }
 
+function quadraticFactoring1() {
+    const a = coefficient(true, 6);
+    const b = coefficient(true, 6);
+    const c1 = Math.abs(a + b);
+    const c2 = Math.abs(a * b);
+    return varialbe() + exponent(2) + sign(a + b) + (c1 == 1 ? '' : c1) + varialbe() + sign(a * b) + c2;
+}
