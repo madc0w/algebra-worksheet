@@ -84,9 +84,16 @@ function intermediateLinear() {
         c1 = term(a, true, 0);
     }
     const problem = c1 + ' ' + lParen + term(b, true) + term(c, false, 0) + rParen + ' = ' + term(d, true) + term(e, false, 0);
+    const frac = simplifyFraction(e - a * c, a * b - d);
+    let answer;
+    if (frac.value == Math.floor(frac.value)) {
+        answer = variable() + ' = ' + frac.html;
+    } else {
+        answer = '<div style="top: -32px; position: relative;"><div style="display: inline; top: -8px; position: relative;">' + variable() + ' =  </div>' + frac.html + '</div>';
+    }
     return {
         problem,
-        answer: 'TODO'
+        answer
     };
 }
 
