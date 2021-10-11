@@ -118,8 +118,8 @@ li {
 }
 
 button {
-    font-size: 24px;
-    min-width: 120px;
+    font-size: 22px;
+    min-width: 160px;
     margin-top: 8px;
 	cursor: pointer;
 	border: 4px solid #222;
@@ -138,4 +138,8 @@ button:hover {
 #byline {
     padding-top: 22px;
     font-size: 14px;
+}
+
+#num-questions {
+    width: 32px;
 }

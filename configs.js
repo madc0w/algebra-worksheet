@@ -1,4 +1,3 @@
-const numProblems = 16;
 const configs = [
     {
         separator: 'Linear things',

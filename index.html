@@ -41,6 +41,13 @@
             <input type="checkbox" id="show-answers" onChange="toggleShowAnswers()" />
             <label for="show-answers">Show solutions</label>
         </div>
+        <div id="num-questions-container">
+            <label for="show-answers">Number of quesitions: </label>
+            <input type="text" id="num-questions" maxlength="2" onKeyUp="numQuestionsKeyUp()" />
+        </div>
+        <div>
+            <button id="generate-button" onClick="location.href = location.href;">Generate</button>
+        </div>
         <div>
             <button id="print-button" onClick="print()">Print</button>
         </div>

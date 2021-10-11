@@ -1,5 +1,11 @@
+let numProblems;
+
 function load() {
-    const type = new URL(location.href).searchParams.get('type') || 0;
+    const url = new URL(location.href);
+    const type = url.searchParams.get('type') || 0;
+    numProblems = url.searchParams.get('num') || 20;
+    document.getElementById('num-questions').value = numProblems;
+
     const typeSelector = document.getElementById('type-selector');
     let typeSelectorHtml = '';
     let config;
@@ -60,3 +66,18 @@ function setType() {
     location.href = url.toString();
 }
 
+function numQuestionsKeyUp() {
+    const url = new URL(location.href);
+    let num = parseInt(document.getElementById('num-questions').value);
+    if (isNaN(num) || num <= 0) {
+        num = null;
+    }
+    document.getElementById('num-questions').value = num;
+    if (num) {
+        url.searchParams.set('num', num);
+        window.history.pushState({
+            // html: response.html,
+            // pageTitle: response.pageTitle
+        }, '', url.toString());
+    }
+}
