@@ -38,19 +38,22 @@ function load() {
         html += '</div>';
     }
 
-    html += '<ol>';
+    html += '<table>';
     for (let i = 0; i < numProblems; i++) {
         const question = config.problemGenerator();
-        html += '<li>';
+        html += `<tr>`;
+        html += `<td><div class="question-number">${i + 1}</div></td>`;
+        html += `<td>`;
         html += '<div class="problem">';
         html += question.problem;
         html += '</div>';
         html += '<div class="answer">';
         html += question.answer;
         html += '</div>';
-        html += '</li>';
+        html += '</td>';
+        html += `</tr>`;
     }
-    html += '</ol>';
+    html += '</table>';
     contentDiv.innerHTML = html;
 }
 

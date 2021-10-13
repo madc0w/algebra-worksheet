@@ -19,9 +19,14 @@ const configs = [
         instructions: `Solve for ${variable()}.`,
     },
     {
-        title: 'Intermediate linear equations',
+        title: 'Harder linear equations',
         problemGenerator: intermediateLinear,
         instructions: `Solve for ${variable()}.`,
+    },
+    {
+        title: 'Linear graphs',
+        problemGenerator: linearGraphs,
+        instructions: `Give the equation for each line in the form ${variable('y')} = m${variable()} + b.`,
     },
     {
         separator: 'Quadratic things',
@@ -61,7 +66,7 @@ function simpleLinear() {
     if (frac.value == Math.floor(frac.value)) {
         answer = variable() + ' = ' + frac.html;
     } else {
-        answer = '<div style="top: -32px; position: relative;"><div style="display: inline; top: -8px; position: relative;">' + variable() + ' =  </div>' + frac.html + '</div>';
+        answer = '<div style="top: -22px; position: relative;"><div style="display: inline; top: -8px; position: relative;">' + variable() + ' =  </div>' + frac.html + '</div>';
     }
 
     return {
@@ -99,7 +104,7 @@ function intermediateLinear() {
     if (frac.value == Math.floor(frac.value)) {
         answer = variable() + ' = ' + frac.html;
     } else {
-        answer = '<div style="top: -32px; position: relative;"><div style="display: inline; top: -8px; position: relative;">' + variable() + ' =  </div>' + frac.html + '</div>';
+        answer = '<div style="top: -22px; position: relative;"><div style="display: inline; top: -8px; position: relative;">' + variable() + ' =  </div>' + frac.html + '</div>';
     }
     return {
         problem,
@@ -164,7 +169,7 @@ function quadraticEquations() {
                 if (frac2.value == Math.floor(frac2.value)) {
                     frac2Wrapped = `<div style="display: inline; top: -8px; position: relative;"'>${frac2Wrapped}</div>`;
                 }
-                answer = '<div style="top: -32px; position: relative;">';
+                answer = '<div style="top: -22px; position: relative;">';
                 answer += '<div style="display: inline; top: -8px; position: relative;">' + variable() + ' = </div>' + frac1Wrapped + ', ';
                 answer += '<div style="display: inline; top: -8px; position: relative;">' + variable() + ' = </div>' + frac2Wrapped;
                 answer += '</div>';
@@ -197,7 +202,7 @@ function addingAndSubtractingFractions() {
     const answerFrac = simplifyFraction(num1 * denom2 + num2 * denom1, denom2 * denom1);
     let answer = answerFrac.html;
     if (answerFrac.value != Math.floor(answerFrac.value)) {
-        answer = `<div style="display: inline; top: -32px; position: relative;"'>${answer}</div>`;
+        answer = `<div style="display: inline; top: -22px; position: relative;"'>${answer}</div>`;
     }
     return {
         problem,
@@ -219,10 +224,79 @@ function addingFractions() {
     const answerFrac = simplifyFraction(num1 * denom2 + num2 * denom1, denom2 * denom1);
     let answer = answerFrac.html;
     if (answerFrac.value != Math.floor(answerFrac.value)) {
-        answer = `<div style="display: inline; top: -32px; position: relative;"'>${answer}</div>`;
+        answer = `<div style="display: inline; top: -22px; position: relative;"'>${answer}</div>`;
     }
     return {
         problem,
+        answer
+    };
+}
+
+function linearGraphs() {
+    const id = Math.floor(Math.random() * 1e18);
+    const mNumerator = Math.random() < 0.04 ? 0 : coefficient(8);
+    const mDenominator = mNumerator != 0 && Math.random() < 0.04 ? 0 : coefficient(8);
+    const m = mNumerator / mDenominator;
+    const b = coefficient(4);
+    setTimeout(() => {
+        const canvas = document.getElementById(id);
+        canvas.width = canvas.height = 200;
+        const ctx = canvas.getContext('2d');
+        ctx.strokeStyle = '#000';
+        ctx.beginPath();
+        ctx.moveTo(100, 0);
+        ctx.lineTo(100, 200);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, 100);
+        ctx.lineTo(200, 100);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#ccc';
+        for (let x = -10; x <= 10; x++) {
+            ctx.beginPath();
+            ctx.moveTo(x * 20, 0);
+            ctx.lineTo(x * 20, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = -10; y <= 10; y++) {
+            ctx.beginPath();
+            ctx.moveTo(0, y * 20);
+            ctx.lineTo(canvas.width, y * 20);
+            ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#00c';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        if (mDenominator == 0) {
+            ctx.moveTo(100 + b * 20, 0);
+            ctx.lineTo(100 + b * 20, 200);
+        } else {
+            ctx.moveTo(0, 100 - (10 * (-10 * m + 2 * b)));
+            ctx.lineTo(200, 100 - (10 * (10 * m + 2 * b)));
+        }
+        ctx.stroke();
+
+    }, 20);
+    const mFrac = simplifyFraction(mNumerator, mDenominator);
+    let mFracHtml, verticalAdjustment = 0;
+    if (mFrac.value == 1 || mFrac.value == 0) {
+        mFracHtml = '';
+    } else if (mFrac.value == -1) {
+        mFracHtml = '-';
+    } else if (mFrac.value != Math.floor(mFrac.value)) {
+        mFracHtml = '<div style="display: inline; position: relative; top: 8px;">' + mFrac.html + '</div>';
+        verticalAdjustment = -28;
+    } else {
+        mFracHtml = mFrac.html;
+    }
+    let answer = `<div style="position: relative; top: ${verticalAdjustment}px;">` + variable('y') + ' = ' + mFracHtml + variable() + term(b, false, 0) + '</div>';
+    if (mDenominator == 0) {
+        answer = `${variable()} = ${b}`;
+    }
+    return {
+        problem: `<div class="canvas-container"><canvas id="${id}"></canvas></div>`,
         answer
     };
 }
