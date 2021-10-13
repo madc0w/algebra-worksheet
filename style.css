@@ -61,6 +61,8 @@ li {
     border-style: solid;
     border-color: #222;
     padding: 8px;
+    position: sticky;
+    top: 8px;
 }
 
 #show-answers-container {

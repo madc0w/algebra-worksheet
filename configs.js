@@ -5,10 +5,12 @@ const configs = [
     {
         title: 'Adding fractions',
         problemGenerator: addingFractions,
+        instructions: `Express answers as improper fractions (e.g. ${simplifyFraction(17, 4).html}).`,
     },
     {
         title: 'Adding &amp; subtracting fractions',
         problemGenerator: addingAndSubtractingFractions,
+        instructions: `Express answers as improper fractions (e.g. ${simplifyFraction(17, 4).html}).`,
     },
     {
         separator: 'Linear things',
