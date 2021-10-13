@@ -7,6 +7,10 @@ const configs = [
         problemGenerator: addingFractions,
     },
     {
+        title: 'Adding &amp; subtracting fractions',
+        problemGenerator: addingAndSubtractingFractions,
+    },
+    {
         separator: 'Linear things',
     },
     {
@@ -178,15 +182,40 @@ function quadraticEquations() {
     };
 }
 
-function addingFractions() {
-    const num1 = coefficient(12);
-    const denom1 = coefficient(12);
-    const num2 = coefficient(12);
-    const denom2 = coefficient(12);
-    const frac1 = simplifyFraction(num1, denom1);
-    const frac2 = simplifyFraction(Math.abs(num2), Math.abs(denom2));
+function addingAndSubtractingFractions() {
+    let num1, num2, denom1, denom2, frac1, frac2;
+    do {
+        num1 = Math.abs(coefficient(12));
+        denom1 = Math.abs(coefficient(12));
+        num2 = Math.abs(coefficient(12));
+        denom2 = Math.abs(coefficient(12));
+        frac1 = simplifyFraction(num1, denom1);
+        frac2 = simplifyFraction(num2, denom2);
+    } while (frac1.value == Math.floor(frac1.value) && frac2.value == Math.floor(frac2.value));
     const sign = Math.sign(num2 / denom2) > 0 ? ' + ' : ' - ';
     const problem = frac1.html + sign + frac2.html;
+    const answerFrac = simplifyFraction(num1 * denom2 + num2 * denom1, denom2 * denom1);
+    let answer = answerFrac.html;
+    if (answerFrac.value != Math.floor(answerFrac.value)) {
+        answer = `<div style="display: inline; top: -32px; position: relative;"'>${answer}</div>`;
+    }
+    return {
+        problem,
+        answer
+    };
+}
+
+function addingFractions() {
+    let num1, num2, denom1, denom2, frac1, frac2;
+    do {
+        num1 = Math.abs(coefficient(12));
+        denom1 = Math.abs(coefficient(12));
+        num2 = Math.abs(coefficient(12));
+        denom2 = Math.abs(coefficient(12));
+        frac1 = simplifyFraction(num1, denom1);
+        frac2 = simplifyFraction(num2, denom2);
+    } while (frac1.value == Math.floor(frac1.value) && frac2.value == Math.floor(frac2.value));
+    const problem = frac1.html + ' + ' + frac2.html;
     const answerFrac = simplifyFraction(num1 * denom2 + num2 * denom1, denom2 * denom1);
     let answer = answerFrac.html;
     if (answerFrac.value != Math.floor(answerFrac.value)) {
