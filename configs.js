@@ -1,5 +1,12 @@
 const configs = [
     {
+        separator: 'Arithmetic',
+    },
+    {
+        title: 'Adding fractions',
+        problemGenerator: addingFractions,
+    },
+    {
         separator: 'Linear things',
     },
     {
@@ -164,6 +171,26 @@ function quadraticEquations() {
             const ans2 = num2 / denom;
             answer = variable() + ' = ' + ans1.toFixed(3) + ', ' + variable() + ' = ' + ans2.toFixed(3);
         }
+    }
+    return {
+        problem,
+        answer
+    };
+}
+
+function addingFractions() {
+    const num1 = coefficient(12);
+    const denom1 = coefficient(12);
+    const num2 = coefficient(12);
+    const denom2 = coefficient(12);
+    const frac1 = simplifyFraction(num1, denom1);
+    const frac2 = simplifyFraction(Math.abs(num2), Math.abs(denom2));
+    const sign = Math.sign(num2 / denom2) > 0 ? ' + ' : ' - ';
+    const problem = frac1.html + sign + frac2.html;
+    const answerFrac = simplifyFraction(num1 * denom2 + num2 * denom1, denom2 * denom1);
+    let answer = answerFrac.html;
+    if (answerFrac.value != Math.floor(answerFrac.value)) {
+        answer = `<div style="display: inline; top: -32px; position: relative;"'>${answer}</div>`;
     }
     return {
         problem,

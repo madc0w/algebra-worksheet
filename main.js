@@ -31,9 +31,12 @@ function load() {
     }
 
     const contentDiv = document.getElementById('content');
-    let html = '<div id="instructions">';
-    html += config.instructions;
-    html += '</div>';
+    let html = '';
+    if (config.instructions) {
+        html += '<div id="instructions">';
+        html += config.instructions;
+        html += '</div>';
+    }
 
     html += '<ol>';
     for (let i = 0; i < numProblems; i++) {
