@@ -235,7 +235,7 @@ function addingFractions() {
 function linearGraphs() {
     const id = Math.floor(Math.random() * 1e18);
     const mNumerator = Math.random() < 0.04 ? 0 : coefficient(8);
-    const mDenominator = mNumerator != 0 && Math.random() < 0.04 ? 0 : coefficient(8);
+    const mDenominator = mNumerator != 0 && Math.random() < 0.08 ? 0 : coefficient(8);
     const m = mNumerator / mDenominator;
     const b = coefficient(4);
     setTimeout(() => {
@@ -244,37 +244,45 @@ function linearGraphs() {
         const ctx = canvas.getContext('2d');
         ctx.strokeStyle = '#000';
         ctx.beginPath();
-        ctx.moveTo(100, 0);
-        ctx.lineTo(100, 200);
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(canvas.width / 2, canvas.height);
         ctx.stroke();
         ctx.beginPath();
-        ctx.moveTo(0, 100);
-        ctx.lineTo(200, 100);
+        ctx.moveTo(0, canvas.height / 2);
+        ctx.lineTo(canvas.width, canvas.height / 2);
         ctx.stroke();
 
         ctx.strokeStyle = '#ccc';
-        for (let x = -10; x <= 10; x++) {
+        ctx.font = '11px Lato';
+        for (let x = 0; x <= 10; x++) {
             ctx.beginPath();
             ctx.moveTo(x * 20, 0);
             ctx.lineTo(x * 20, canvas.height);
             ctx.stroke();
+
+            if (Math.abs(x - 5) > 0 && Math.abs(x - 5) < 5) {
+                ctx.fillText(x - 5, x * 20 - 4, canvas.height / 2 - 6);
+            }
         }
         for (let y = -10; y <= 10; y++) {
             ctx.beginPath();
             ctx.moveTo(0, y * 20);
             ctx.lineTo(canvas.width, y * 20);
             ctx.stroke();
+            if (Math.abs(y - 5) > 0 && Math.abs(y - 5) < 5) {
+                ctx.fillText(5 - y, canvas.width / 2 + 3, y * 20);
+            }
         }
 
         ctx.strokeStyle = '#00c';
         ctx.lineWidth = 2;
         ctx.beginPath();
         if (mDenominator == 0) {
-            ctx.moveTo(100 + b * 20, 0);
-            ctx.lineTo(100 + b * 20, 200);
+            ctx.moveTo(canvas.width / 2 + b * 20, 0);
+            ctx.lineTo(canvas.width / 2 + b * 20, canvas.height);
         } else {
-            ctx.moveTo(0, 100 - (10 * (-10 * m + 2 * b)));
-            ctx.lineTo(200, 100 - (10 * (10 * m + 2 * b)));
+            ctx.moveTo(0, canvas.height / 2 - (10 * (-10 * m + 2 * b)));
+            ctx.lineTo(canvas.width, canvas.height / 2 - (10 * (10 * m + 2 * b)));
         }
         ctx.stroke();
 

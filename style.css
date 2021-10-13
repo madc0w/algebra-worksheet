@@ -148,6 +148,10 @@ button:hover {
     padding-top: 8px;
 }
 
+tr {
+    page-break-inside: avoid;
+}
+
 td {
     vertical-align: top;
 }
