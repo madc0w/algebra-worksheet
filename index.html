@@ -37,13 +37,13 @@
             Select worksheet:
         </div>
         <select onChange="setType()" id="type-selector"></select>
-        <div id="show-answers-container">
-            <input type="checkbox" id="show-answers" onChange="toggleShowAnswers()" />
-            <label for="show-answers">Show solutions</label>
-        </div>
         <div id="num-questions-container">
             <label for="show-answers">Number of quesitions: </label>
             <input type="text" id="num-questions" maxlength="2" onKeyUp="numQuestionsKeyUp()" />
+        </div>
+        <div id="show-answers-container">
+            <input type="checkbox" id="show-answers" onChange="toggleShowAnswers()" />
+            <label for="show-answers">Show solutions</label>
         </div>
         <div>
             <button id="generate-button" onClick="location.href = location.href;">Generate</button>
@@ -53,7 +53,12 @@
         </div>
         <div id="byline">
             <a href="mailto:fofofeedback@runbox.com?subject=Math for nerds feedback">
-                Talk to me
+                Talk to me!
+            </a>
+        </div>
+        <div id="byline">
+            <a href="https://fofolabs.com" target="fofo">
+                More amazing stuff
             </a>
         </div>
     </div>

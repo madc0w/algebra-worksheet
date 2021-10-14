@@ -61,8 +61,20 @@ li {
     border-style: solid;
     border-color: #222;
     padding: 8px;
+    margin-right: 22px;
     position: sticky;
     top: 8px;
+	box-shadow: 10px 15px 24px 0px rgba(0, 0, 0, 0.4);
+    width: 340px;
+}
+
+#settings button {
+    margin-top: 22px;
+    margin-left: 84px;
+}
+
+#num-questions-container {
+    margin-top: 12px;
 }
 
 #show-answers-container {
@@ -138,7 +150,7 @@ button:hover {
 }
 
 #byline {
-    padding-top: 22px;
+    padding-top: 12px;
     font-size: 14px;
 }
 
