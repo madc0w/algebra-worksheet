@@ -194,10 +194,10 @@ function addingAndSubtractingFractions() {
     do {
         num1 = Math.abs(coefficient(12));
         denom1 = Math.abs(coefficient(12));
-        num2 = Math.abs(coefficient(12));
+        num2 = coefficient(12);
         denom2 = Math.abs(coefficient(12));
         frac1 = simplifyFraction(num1, denom1);
-        frac2 = simplifyFraction(num2, denom2);
+        frac2 = simplifyFraction(Math.abs(num2), denom2);
     } while (frac1.value == Math.floor(frac1.value) && frac2.value == Math.floor(frac2.value));
     const sign = Math.sign(num2 / denom2) > 0 ? ' + ' : ' - ';
     const problem = frac1.html + sign + frac2.html;
