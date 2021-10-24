@@ -216,9 +216,9 @@ function addingFractions() {
     let num1, num2, denom1, denom2, frac1, frac2;
     do {
         num1 = Math.abs(coefficient(12));
-        denom1 = Math.abs(coefficient(12));
+        denom1 = Math.abs(coefficient(8));
         num2 = Math.abs(coefficient(12));
-        denom2 = Math.abs(coefficient(12));
+        denom2 = Math.abs(coefficient(8));
         frac1 = simplifyFraction(num1, denom1);
         frac2 = simplifyFraction(num2, denom2);
     } while (frac1.value == Math.floor(frac1.value) && frac2.value == Math.floor(frac2.value));
