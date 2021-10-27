@@ -173,6 +173,9 @@ td {
 .question-number {
     background-color: #ddd;
     border-radius: 80px;
+    border-width: 2px;
+    border-color: #000;
+    border-style: solid;
     width: 24px;
     height: 24px;
     text-align: center;
