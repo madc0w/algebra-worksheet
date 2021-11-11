@@ -13,6 +13,11 @@ const configs = [
         instructions: `Express answers as improper fractions (e.g. ${simplifyFraction(17, 4).html}).`,
     },
     {
+        title: 'Fractions: LCD exercises',
+        problemGenerator: lcdExercises,
+        instructions: `Express answers as improper fractions (e.g. ${simplifyFraction(17, 4).html}).`,
+    },
+    {
         separator: 'Linear things',
     },
     {
@@ -182,6 +187,42 @@ function quadraticEquations() {
             const ans2 = num2 / denom;
             answer = variable() + ' = ' + ans1.toFixed(3) + ', ' + variable() + ' = ' + ans2.toFixed(3);
         }
+    }
+    return {
+        problem,
+        answer
+    };
+}
+
+function lcdExercises() {
+    const factors = [2, 3, 5, 7];
+    const commonFactors = [];
+    const numCommonFactors = Math.ceil(Math.random() * 3);
+    for (let i = 0; i < numCommonFactors; i++) {
+        commonFactors.push(factors[Math.floor(Math.random() * factors.length)]);
+    }
+    let denom1, denom2;
+    do {
+        denom1 = factors[Math.floor(Math.random() * factors.length)];
+        denom2 = factors[Math.floor(Math.random() * factors.length)];
+        for (const f of commonFactors) {
+            denom1 *= f;
+            denom2 *= f;
+        }
+    } while (denom1 == denom2);
+    let num1, num2, frac1, frac2;
+    do {
+        num1 = Math.abs(coefficient(16));
+        num2 = coefficient(16);
+        frac1 = simplifyFraction(num1, denom1);
+        frac2 = simplifyFraction(Math.abs(num2), denom2);
+    } while (frac1.value == Math.floor(frac1.value) && frac2.value == Math.floor(frac2.value));
+    const sign = Math.sign(num2 / denom2) > 0 ? ' + ' : ' - ';
+    const problem = frac1.html + sign + frac2.html;
+    const answerFrac = simplifyFraction(num1 * denom2 + num2 * denom1, denom2 * denom1);
+    let answer = answerFrac.html;
+    if (answerFrac.value != Math.floor(answerFrac.value)) {
+        answer = `<div style="display: inline; top: -22px; position: relative;"'>${answer}</div>`;
     }
     return {
         problem,
